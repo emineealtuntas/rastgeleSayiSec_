@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .highlight {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <label for="">1'den 99'a kadar olan sayıları for döngüsü ile yan yana
+        <button id="siralaBtn" onclick="sirala()">Sırala</button>
+    </label>
+    <br>
+    <button id="rastgeleBtn" onclick="rastgele()" disabled>Rastgele Sayı Seç</button>
+    <div id="sayilar"></div>
+
+    <script>
+        let secilenSayilar = [];
+
+function sirala() {
+    let sayilarDiv = document.getElementById("sayilar");
+    sayilarDiv.innerHTML = ""; // İçeriği temizle
+
+    for (let i = 1; i <= 99; i++) {
+        let span = document.createElement("span");
+        span.textContent = i + " ";
+        sayilarDiv.appendChild(span);
+
+        if (i % 10 === 0) {
+            sayilarDiv.innerHTML += "<br>";
+        }
+    }
+
+    secilenSayilar = []; // Seçilen sayıları sıfırla
+
+    // Buton durumlarını güncelle
+    document.getElementById("siralaBtn").disabled = true;
+    document.getElementById("rastgeleBtn").disabled = false;
+}
+
+function rastgele() {
+    let sayilarDiv = document.getElementById("sayilar");
+
+    // Rastgele bir sayı seç
+    let rastgeleIndex = Math.floor(Math.random() * 99) + 1;
+    secilenSayilar.push(rastgeleIndex);
+
+    // Seçilen sayının span elementini bul ve stiline uygula
+    let secilenSpan = sayilarDiv.querySelector(":nth-child(" + rastgeleIndex + ")");
+    secilenSpan.classList.add("highlight");
+
+    // Seçilen sayıların listesini güncelle ve her 10 sayıda bir satır ekleyin
+    let sayilanSayi = 0;
+    for (let i = 1; i <= secilenSayilar.length; i++) {
+        let secilenSpan = sayilarDiv.querySelector(":nth-child(" + secilenSayilar[i - 1] + ")");
+        secilenSpan.classList.add("highlight");
+        sayilanSayi++;
+
+        if (sayilanSayi === 10) {
+            sayilarDiv.innerHTML += "<br>";
+            sayilanSayi = 0;
+        }
+    }
+}
+
+// Dizi elemanlarını rastgele karıştıran fonksiyon
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+}
+    </script>
+</body>
+</html>
